@@ -1,0 +1,67 @@
+objective,metric,value
+objective_1,latency_target_seconds,15.0
+objective_1,latency_definition,"Wall-clock time from generation request to a returned draft, including drafts that require human review."
+objective_1,measured_latency_runs,1
+objective_1,returned_draft_runs,1
+objective_1,all_latency_runs_returned_draft,True
+objective_1,mean_returned_seconds,165.265718
+objective_1,median_returned_seconds,165.265718
+objective_1,stdev_returned_seconds,
+objective_1,p95_returned_seconds,165.265718
+objective_1,min_returned_seconds,165.265718
+objective_1,max_returned_seconds,165.265718
+objective_1,accepted_without_review_runs,0
+objective_1,review_required_runs,1
+objective_1,accepted_without_review_rate,0.0
+objective_1,review_required_rate,1.0
+objective_1,fallback_runs,0
+objective_1,fallback_rate,0.0
+objective_1,mean_accepted_seconds,
+objective_1,latency_target_met,False
+objective_1,all_pairs_have_two_or_more_branches,True
+objective_1,all_pairs_share_the_controlled_root,True
+objective_1,all_saved_ai_nodes_have_three_choices,True
+objective_2,fact_preservation_target,0.85
+objective_2,critical_contradiction_target,0
+objective_2,max_continuity_errors_per_branch_target,2
+objective_2,fact_checks,48
+objective_2,fact_checks_passed,42
+objective_2,fact_preservation_rate,0.875
+objective_2,planned_branch_turns,14
+objective_2,completed_branch_turns,7
+objective_2,coverage_rate,0.5
+objective_2,coverage_target_met,False
+objective_2,automatically_detected_critical_contradictions,0
+objective_2,automatic_error_turns_by_branch,"{""pair_1_A"": 2, ""pair_1_B"": 5}"
+objective_2,fact_preservation_target_met,False
+objective_2,automatic_critical_contradiction_target_met,True
+objective_2,manual_review_complete,False
+objective_2,manual_scenes_reviewed,0
+objective_2,manual_critical_contradictions,
+objective_2,manual_continuity_error_turns_by_branch,{}
+objective_2,critical_contradiction_target_met,
+objective_2,continuity_error_target_met,
+objective_2,objective_2_target_met,
+objective_2,manual_semantic_review_still_required,True
+objective_2,manual_review_file,C:\Users\JunYung\Desktop\CM3070 FYP\project code V1.1(Speech_image)\quantization test\evaluation\results\formal_objectives\objective2_manual_story_review.csv
+objective_2,generation_review_file,C:\Users\JunYung\Desktop\CM3070 FYP\project code V1.1(Speech_image)\quantization test\evaluation\results\formal_objectives\objective2_generation_review.csv
+objective_2,review_mode,interactive
+objective_2,runtime_review_required_turns,6
+objective_2,human_overrides_accepted,4
+objective_2,human_overrides_rejected,0
+objective_2,human_confirmed_continuity_errors,0
+objective_3,state_change_target,0.8
+objective_3,accepted_selected_choice_nodes,7
+objective_3,selected_choice_nodes_with_state_change,5
+objective_3,state_changing_choice_ratio,0.7142857142857143
+objective_3,planned_consequence_cases,14
+objective_3,planned_expected_change_cases,12
+objective_3,expected_change_coverage_met,False
+objective_3,coverage_target_met,False
+objective_3,target_met,False
+objective_3,expected_change_cases,5
+objective_3,expected_change_cases_correct,0
+objective_3,expected_change_correctness_rate,0.0
+objective_3,no_change_control_cases,2
+objective_3,no_change_control_accuracy,1.0
+objective_3,note,The original >=80% ratio is retained as the structural proxy. Expected-change correctness and no-change controls are reported separately so arbitrary state mutation is not rewarded.
