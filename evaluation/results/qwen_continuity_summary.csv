@@ -1,0 +1,10 @@
+timestamp,model,case_id,seed,first_pass_accepted,eventual_accepted,attempts,final_failure_stage,retrieval_seconds,writer_seconds_total,semantic_seconds_total,nli_seconds_total,effective_pipeline_seconds,final_word_count,final_labelled_continuity_rate,final_instruction_adherence_rate,final_nli_pass
+2026-09-22T08:25:38.347249+00:00,qwen2.5:1.5b-instruct-q4_K_M,location_change,101,False,False,2,length,4.3084,125.6324,0.0,0.0,129.9482,45,,0.0,
+2026-09-22T08:27:37.145483+00:00,qwen2.5:1.5b-instruct-q4_K_M,inventory_add,101,False,False,2,state,1.2208,117.5199,0.0,0.0,118.7931,40,,1.0,
+2026-09-22T08:29:27.586840+00:00,qwen2.5:1.5b-instruct-q4_K_M,no_change,101,False,False,2,length,2.1788,108.1758,0.0,0.0,110.362,19,,0.5,
+2026-09-22T08:31:37.365829+00:00,qwen2.5:1.5b-instruct-q4_0,location_change,101,False,False,2,state,2.3044,127.4614,0.0,0.0,129.7697,20,,0.0,
+2026-09-22T08:34:02.353431+00:00,qwen2.5:1.5b-instruct-q4_0,inventory_add,101,False,False,2,length,2.1852,142.7901,0.0,0.0,144.9784,35,,1.0,
+2026-09-22T08:35:49.122020+00:00,qwen2.5:1.5b-instruct-q4_0,no_change,101,False,False,2,length,3.2692,103.4818,0.0,0.0,106.7537,19,,0.5,
+2026-09-22T08:40:34.942385+00:00,qwen2.5:1.5b-instruct-q3_K_M,location_change,101,False,False,2,continuity,2.137,187.3441,7.485,88.6738,285.8086,60,0.0,1.0,False
+2026-09-22T08:42:57.741921+00:00,qwen2.5:1.5b-instruct-q3_K_M,inventory_add,101,False,False,2,state,1.9217,140.8522,0.0,0.0,142.7846,36,,1.0,
+2026-09-22T08:44:53.342045+00:00,qwen2.5:1.5b-instruct-q3_K_M,no_change,101,False,False,2,state,1.6486,113.9212,0.0,0.0,115.5755,28,,0.5,
