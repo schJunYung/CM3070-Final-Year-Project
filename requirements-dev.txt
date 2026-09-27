@@ -1,0 +1,5 @@
+# SekAI development and evaluation dependencies
+-r requirements.txt
+
+pytest>=8,<10
+pytest-asyncio
