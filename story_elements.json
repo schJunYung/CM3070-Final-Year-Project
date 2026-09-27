@@ -1,0 +1,341 @@
+[
+  {
+    "id": "fantasy_cave_troll",
+    "pack": "Fantasy",
+    "category": "creature",
+    "name": "Cave Troll",
+    "tags": [
+      "fantasy",
+      "tower",
+      "dungeon",
+      "cave",
+      "brute"
+    ],
+    "threat": "High",
+    "description": "A hulking grey-skinned creature with long arms, cracked tusks and scarred shoulders.",
+    "details": {
+      "behaviour": "Territorial and aggressive when approached.",
+      "attacks": [
+        "Swings a heavy stone club",
+        "Charges to knock enemies down"
+      ],
+      "defences": [
+        "Thick hide absorbs weak attacks",
+        "Uses stone cover when injured"
+      ],
+      "possible_rewards": [
+        "Iron key",
+        "Troll fang",
+        "Small pouch of coins"
+      ]
+    }
+  },
+  {
+    "id": "fantasy_giant_spider",
+    "pack": "Fantasy",
+    "category": "creature",
+    "name": "Giant Spider",
+    "tags": [
+      "fantasy",
+      "tower",
+      "dungeon",
+      "web",
+      "ambush"
+    ],
+    "threat": "Medium",
+    "description": "A horse-sized spider with hooked legs, pale eyes and strands of sticky web clinging to its abdomen.",
+    "details": {
+      "behaviour": "Waits above narrow passages and attacks isolated targets.",
+      "attacks": [
+        "Venomous bite",
+        "Web entanglement"
+      ],
+      "defences": [
+        "Climbs walls and ceilings",
+        "Retreats through webbed passages"
+      ],
+      "possible_rewards": [
+        "Silk bundle",
+        "Venom sac"
+      ]
+    }
+  },
+  {
+    "id": "fantasy_pressure_spikes",
+    "pack": "Fantasy",
+    "category": "hazard",
+    "name": "Pressure-Plate Spike Trap",
+    "tags": [
+      "fantasy",
+      "tower",
+      "dungeon",
+      "floor",
+      "mechanical",
+      "corridor"
+    ],
+    "threat": "Medium",
+    "description": "A slightly sunken stone tile hides a mechanical pressure plate.",
+    "details": {
+      "activation": "Stepping on the plate releases spikes from concealed wall slots.",
+      "detection": [
+        "Narrow wall slots",
+        "Scratches around the suspicious floor tile"
+      ],
+      "disarm": [
+        "Jam the plate before applying weight",
+        "Disable the spring mechanism"
+      ],
+      "effect": "Metal spikes shoot across the corridor and can seriously injure anyone in their path."
+    }
+  },
+  {
+    "id": "fantasy_healing_potion",
+    "pack": "Fantasy",
+    "category": "item",
+    "name": "Healing Potion",
+    "tags": [
+      "fantasy",
+      "potion",
+      "healing",
+      "loot",
+      "medicine"
+    ],
+    "threat": null,
+    "description": "A thumb-sized glass vial filled with luminous red liquid and sealed with wax.",
+    "details": {
+      "function": "Restores strength after injury.",
+      "obtain": [
+        "Found as loot",
+        "Purchased from a healer",
+        "Given as a reward"
+      ]
+    }
+  },
+  {
+    "id": "fantasy_bronze_key",
+    "pack": "Fantasy",
+    "category": "item",
+    "name": "Bronze Tower Key",
+    "tags": [
+      "fantasy",
+      "tower",
+      "key",
+      "door",
+      "loot"
+    ],
+    "threat": null,
+    "description": "A heavy bronze key with a circular head bearing a worn tower crest.",
+    "details": {
+      "function": "Unlocks a reinforced tower door.",
+      "obtain": [
+        "Taken from a guard",
+        "Found in a chamber",
+        "Given as a reward"
+      ]
+    }
+  },
+  {
+    "id": "scifi_security_drone",
+    "pack": "Science Fiction",
+    "category": "creature",
+    "name": "Security Drone",
+    "tags": [
+      "science",
+      "fiction",
+      "scifi",
+      "station",
+      "technology",
+      "security",
+      "combat"
+    ],
+    "threat": "Medium",
+    "description": "A compact hovering drone with an armoured shell and rotating optical sensor.",
+    "details": {
+      "behaviour": "Challenges unidentified personnel and calls reinforcements when threatened.",
+      "attacks": [
+        "Stun pulse",
+        "Short-range energy burst"
+      ],
+      "defences": [
+        "Armoured shell",
+        "Rapid evasive movement"
+      ],
+      "possible_rewards": [
+        "Security access module",
+        "Energy cell"
+      ]
+    }
+  },
+  {
+    "id": "scifi_alien_parasite",
+    "pack": "Science Fiction",
+    "category": "creature",
+    "name": "Alien Parasite",
+    "tags": [
+      "science",
+      "fiction",
+      "scifi",
+      "alien",
+      "station",
+      "horror",
+      "biological"
+    ],
+    "threat": "High",
+    "description": "A translucent many-limbed organism that clings to warm machinery and reacts to movement.",
+    "details": {
+      "behaviour": "Hides in vents and attacks isolated living targets.",
+      "attacks": [
+        "Leaping grapple",
+        "Corrosive secretion"
+      ],
+      "defences": [
+        "Fits through narrow vents",
+        "Camouflages against metal surfaces"
+      ],
+      "possible_rewards": [
+        "Biological sample",
+        "Hardened carapace fragment"
+      ]
+    }
+  },
+  {
+    "id": "scifi_laser_tripwire",
+    "pack": "Science Fiction",
+    "category": "hazard",
+    "name": "Laser Tripwire",
+    "tags": [
+      "science",
+      "fiction",
+      "scifi",
+      "station",
+      "security",
+      "laser",
+      "corridor"
+    ],
+    "threat": "Medium",
+    "description": "A near-invisible beam crosses a doorway between two recessed emitters.",
+    "details": {
+      "activation": "Breaking the beam triggers the linked security response.",
+      "detection": [
+        "Dust reveals the beam",
+        "A scanner detects paired emitters"
+      ],
+      "disarm": [
+        "Disable the emitter power feed",
+        "Spoof the security circuit"
+      ],
+      "effect": "Triggers an alarm, sealed bulkheads, or an automated defence system."
+    }
+  },
+  {
+    "id": "scifi_reactor_leak",
+    "pack": "Science Fiction",
+    "category": "hazard",
+    "name": "Reactor Coolant Leak",
+    "tags": [
+      "science",
+      "fiction",
+      "scifi",
+      "station",
+      "reactor",
+      "engineering",
+      "hazard"
+    ],
+    "threat": "High",
+    "description": "White coolant vapour pours from a ruptured conduit while warning lights flash across the engineering deck.",
+    "details": {
+      "activation": "Entering or disturbing the damaged engineering section exposes the crew to the leak.",
+      "detection": [
+        "Temperature warning",
+        "Condensation around the damaged bulkhead"
+      ],
+      "disarm": [
+        "Seal the conduit",
+        "Isolate the damaged coolant circuit"
+      ],
+      "effect": "Extreme cold, visibility loss and possible reactor instability."
+    }
+  },
+  {
+    "id": "scifi_medkit",
+    "pack": "Science Fiction",
+    "category": "item",
+    "name": "Emergency Medkit",
+    "tags": [
+      "science",
+      "fiction",
+      "scifi",
+      "medical",
+      "healing",
+      "equipment"
+    ],
+    "threat": null,
+    "description": "A white hard-shell case marked with a medical symbol and secured by a simple latch.",
+    "details": {
+      "function": "Contains supplies for treating trauma and stabilising injuries.",
+      "obtain": [
+        "Emergency locker",
+        "Medical bay",
+        "Recovered from a crew member"
+      ]
+    }
+  },
+  {
+    "id": "horror_shadow_figure",
+    "pack": "Horror",
+    "category": "creature",
+    "name": "Shadow Figure",
+    "tags": [
+      "horror",
+      "dark",
+      "haunted",
+      "spectral",
+      "stalker"
+    ],
+    "threat": "Medium",
+    "description": "A human-shaped absence of light that appears at the edge of vision and vanishes when directly confronted.",
+    "details": {
+      "behaviour": "Observes from a distance before approaching isolated characters.",
+      "attacks": [
+        "Sudden apparition",
+        "Cold grasp"
+      ],
+      "defences": [
+        "Disappears into darkness",
+        "Avoids bright light"
+      ],
+      "possible_rewards": [
+        "Cold iron charm",
+        "Fragment of a victim's note"
+      ]
+    }
+  },
+  {
+    "id": "horror_rotten_floor",
+    "pack": "Horror",
+    "category": "hazard",
+    "name": "Rotten Floor Collapse",
+    "tags": [
+      "horror",
+      "house",
+      "floor",
+      "collapse",
+      "hazard"
+    ],
+    "threat": "Medium",
+    "description": "Water-damaged floorboards bow under weight and conceal a dark drop below.",
+    "details": {
+      "activation": "Crossing the weakened section causes the boards to give way.",
+      "detection": [
+        "Sagging boards",
+        "Fresh splinters",
+        "Hollow sound underfoot"
+      ],
+      "disarm": [
+        "Cross using a supporting beam",
+        "Brace the floor before crossing"
+      ],
+      "effect": "A character can fall into the room or cellar below and become separated from the group."
+    }
+  }
+]
