@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SekAI Story Workspace</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <section id="homeView" class="page-view">
+      <header class="home-header">
+        <div class="brand-block">
+          <div class="brand-mark">S</div>
+          <div>
+            <p class="eyebrow">CM3070 Final Year Project</p>
+            <h1>SekAI Story Workspace</h1>
+            <p class="subtle">Plan, write, generate and compare branching TTRPG campaign stories.</p>
+          </div>
+        </div>
+        <div class="home-actions">
+          <span id="homeServiceStatus" class="status-pill neutral">Checking local AI…</span>
+          <button id="homeStoryElementsBtn" class="ghost-button" type="button">Story elements</button>
+          <button id="newStoryHomeBtn" class="primary-button" type="button">+ New story</button>
+        </div>
+      </header>
+
+      <main class="home-main">
+        <section class="template-strip">
+          <button id="blankStoryCard" class="blank-story-card" type="button">
+            <span class="blank-plus">+</span>
+            <strong>Blank campaign story</strong>
+            <small>Start with your own scene and story settings</small>
+          </button>
+          <article class="home-guidance-card">
+            <h2>What belongs in SekAI?</h2>
+            <p>A prepared story remains editable by the Game Master. AI generation is optional and branch memory stays visible.</p>
+            <div class="guidance-tags"><span>Manual writing</span><span>Local AI</span><span>Branch map</span><span>Memory snapshots</span></div>
+          </article>
+        </section>
+
+        <section class="stories-section">
+          <div class="section-heading">
+            <div>
+              <h2>Your stories</h2>
+              <p class="subtle">Choose a story to continue writing or inspect its branches.</p>
+            </div>
+            <input id="storySearch" class="search-input" type="search" placeholder="Search stories" />
+          </div>
+          <div id="storyGrid" class="story-grid"></div>
+        </section>
+      </main>
+    </section>
+
+    <section id="storyElementsView" class="page-view hidden">
+      <header class="home-header">
+        <div class="brand-block">
+          <button id="backFromStoryElementsBtn" class="brand-home-button library-back-button" type="button" aria-label="Return to previous page">
+            <span class="brand-mark small">S</span>
+            <strong>SekAI</strong>
+          </button>
+          <div>
+            <p class="eyebrow">Application settings</p>
+            <h1>Story Element Library</h1>
+            <p class="subtle">Create, inspect and edit reusable narrative elements. Built-in elements can be restored to their factory defaults.</p>
+          </div>
+        </div>
+        <div class="home-actions">
+          <button id="resetAllStoryElementsBtn" class="ghost-button" type="button">Reset built-in defaults</button>
+          <button id="newStoryElementBtn" class="primary-button" type="button">+ New element</button>
+        </div>
+      </header>
+
+      <main class="library-main">
+        <section class="panel library-filter-panel">
+          <div class="library-filter-grid">
+            <div>
+              <label for="storyElementSearch">Search</label>
+              <input id="storyElementSearch" type="search" placeholder="Search name, pack, category or tags" />
+            </div>
+            <div>
+              <label for="storyElementManagerPackFilter">Pack</label>
+              <select id="storyElementManagerPackFilter">
+                <option value="">All packs</option>
+              </select>
+            </div>
+            <div>
+              <label for="storyElementManagerCategoryFilter">Category</label>
+              <select id="storyElementManagerCategoryFilter">
+                <option value="">All categories</option>
+                <option value="creature">Creature</option>
+                <option value="hazard">Hazard / trap</option>
+                <option value="item">Item</option>
+                <option value="location">Location</option>
+                <option value="npc">NPC</option>
+                <option value="encounter">Encounter</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="library-manager-layout">
+          <section class="panel library-list-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Library</h2>
+                <p class="subtle">Select an element to view or edit every stored field.</p>
+              </div>
+              <span id="storyElementCount" class="status-pill neutral">0 elements</span>
+            </div>
+            <div id="storyElementManagerList" class="story-element-manager-list"></div>
+          </section>
+
+          <section class="panel library-editor-panel">
+            <div class="panel-heading">
+              <div>
+                <p id="storyElementEditorSource" class="eyebrow">Select an element</p>
+                <h2 id="storyElementEditorTitle">Story element editor</h2>
+                <p class="subtle">Fields are stored in SQLite. List fields use one entry per line.</p>
+              </div>
+            </div>
+
+            <form id="storyElementEditorForm" class="hidden" onsubmit="return false;">
+              <div class="two-column-form">
+                <div>
+                  <label for="libraryElementName">Name</label>
+                  <input id="libraryElementName" type="text" />
+                </div>
+                <div>
+                  <label for="libraryElementPack">Pack / genre group</label>
+                  <input id="libraryElementPack" type="text" placeholder="Fantasy, Science Fiction, Horror, Custom…" />
+                </div>
+                <div>
+                  <label for="libraryElementCategory">Category</label>
+                  <select id="libraryElementCategory">
+                    <option value="creature">Creature</option>
+                    <option value="hazard">Hazard / trap</option>
+                    <option value="item">Item</option>
+                    <option value="location">Location</option>
+                    <option value="npc">NPC</option>
+                    <option value="encounter">Encounter</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="libraryElementThreat">Threat</label>
+                  <select id="libraryElementThreat">
+                    <option value="">Not applicable</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
+                </div>
+                <div class="span-two">
+                  <label for="libraryElementTags">Tags, comma-separated</label>
+                  <input id="libraryElementTags" type="text" placeholder="tower, dungeon, brute, guard" />
+                </div>
+                <div class="span-two">
+                  <label for="libraryElementDescription">Description / appearance</label>
+                  <textarea id="libraryElementDescription" class="element-description-editor" placeholder="Describe what the element looks like and what the GM should know about it."></textarea>
+                </div>
+              </div>
+
+              <section class="story-element-detail-section">
+                <div class="panel-heading">
+                  <div>
+                    <h3>Category details</h3>
+                    <p class="subtle">The fields below change with the selected category. You do not need to write key:value syntax.</p>
+                  </div>
+                </div>
+                <div id="libraryElementDetailFields" class="two-column-form"></div>
+              </section>
+
+              <div class="modal-actions library-editor-actions">
+                <button id="deleteStoryElementBtn" class="danger-button" type="button">Delete</button>
+                <button id="resetStoryElementBtn" class="ghost-button" type="button">Reset this built-in</button>
+                <button id="saveStoryElementBtn" class="primary-button" type="button">Save element</button>
+              </div>
+            </form>
+
+            <div id="storyElementEditorEmpty" class="empty-library-editor">
+              <h3>Choose a story element</h3>
+              <p class="subtle">Select an existing element from the library, or create a new reusable element.</p>
+            </div>
+          </section>
+        </section>
+      </main>
+    </section>
+
+    <section id="workspaceView" class="page-view hidden">
+      <aside class="workspace-sidebar">
+        <div class="sidebar-brand">
+          <button id="homeBtn" class="brand-home-button" type="button" aria-label="Return home">
+            <span class="brand-mark small">S</span>
+            <strong>SekAI</strong>
+          </button>
+          <button id="newStorySidebarBtn" class="sidebar-new-button" type="button">+ New story</button>
+        </div>
+        <div class="sidebar-heading-row">
+          <span>Stories</span>
+          <button id="refreshStoriesBtn" class="icon-button" type="button" title="Refresh stories">↻</button>
+        </div>
+        <nav id="sidebarStories" class="sidebar-story-list"></nav>
+        <div class="sidebar-footer">
+          <span id="workspaceServiceStatus" class="status-pill neutral">Local AI</span>
+        </div>
+      </aside>
+
+      <main class="workspace-main">
+        <header class="workspace-header">
+          <div>
+            <p id="workspaceGenreTone" class="eyebrow"></p>
+            <h1 id="workspaceTitle">Story</h1>
+            <p id="workspaceObjective" class="subtle"></p>
+          </div>
+          <div class="workspace-header-actions">
+            <button id="viewFullStoryBtn" class="ghost-button" type="button">View full story</button>
+            <button id="compareBranchesBtn" class="ghost-button" type="button">Compare branches</button>
+            <button id="openTrashBtn" class="ghost-button" type="button">Trash</button>
+            <button id="deleteBranchBtn" class="danger-button" type="button">Delete current branch</button>
+            <button id="workspaceStoryElementsBtn" class="ghost-button" type="button">Story elements</button>
+            <button id="openSettingsBtn" class="secondary-button" type="button">Story setup</button>
+          </div>
+        </header>
+
+        <section class="panel map-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Story map</h2>
+              <p class="subtle">Click any node to review, edit, delete or continue from that point.</p>
+            </div>
+            <div id="branchFilter" class="branch-filter"></div>
+          </div>
+          <div id="storyMapViewport" class="story-map-viewport">
+            <div id="storyMapCanvas" class="story-map-canvas"></div>
+          </div>
+        </section>
+
+        <section class="story-body-grid">
+          <section class="panel node-panel">
+            <div class="panel-heading">
+              <div>
+                <h2 id="selectedNodeTitle">Selected scene</h2>
+                <p id="selectedNodeMeta" class="subtle"></p>
+              </div>
+              <div class="node-toolbar">
+                <button id="editNodeBtn" class="ghost-button" type="button">Edit</button>
+                <button id="deleteNodeBtn" class="danger-button" type="button">Delete</button>
+              </div>
+            </div>
+            <article id="selectedNodeContent" class="selected-node-content"></article>
+            <section class="scene-image-panel selected-node-image-panel">
+              <div class="panel-heading">
+                <div>
+                  <h4>Scene illustration</h4>
+                  <p class="subtle">
+                    Generate or replace the illustration attached to this saved node.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                id="selectedNodeImagePreview"
+                class="scene-image-preview"
+              ></div>
+
+              <label for="selectedNodeImagePrompt">
+                Image prompt override (optional)
+              </label>
+
+              <textarea
+                id="selectedNodeImagePrompt"
+                placeholder="Leave blank to generate from the saved scene and memory."
+              ></textarea>
+
+              <div class="inline-actions">
+                <select id="selectedNodeImageModel">
+                  <option value="sd15-int8" selected>
+                    Stable Diffusion 1.5 · OpenVINO INT8
+                  </option>
+                </select>
+
+                <button
+                  id="regenerateSelectedNodeImageBtn"
+                  class="ghost-button"
+                  type="button">
+                  Generate image
+                </button>
+              </div>
+
+              <p id="selectedNodeImageStatus" class="subtle"></p>
+            </section>
+            <section id="selectedNodeChoices" class="choice-list"></section>
+          </section>
+
+       <aside class="panel memory-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Memory sent to AI</h2>
+            <p class="subtle">
+              This is the authoritative JSON memory
+              used when generating from this node.
+            </p>
+          </div>
+        </div>
+
+        <textarea
+          id="memoryJsonView"
+          class="large-textarea memory-json"
+          readonly
+          spellcheck="false"
+        ></textarea>
+
+        <button
+          id="copyMemoryJsonBtn"
+          class="ghost-button full-width"
+          type="button"
+        >
+          Copy memory JSON
+        </button>
+      </aside>
+
+        <section class="panel composer-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Create the next story node</h2>
+              <p class="subtle">Write directly, or let the local model respond to a DO, SAY, ASK or CONTINUE instruction.</p>
+            </div>
+            <span id="composerContextBadge" class="status-pill neutral">Select a node</span>
+          </div>
+
+          <div class="composer-tabs" role="tablist">
+            <button class="composer-tab active" data-composer-mode="write" type="button">Write scene</button>
+            <button class="composer-tab" data-composer-mode="continue" type="button">CONTINUE</button>
+            <button class="composer-tab" data-composer-mode="do" type="button">DO</button>
+            <button class="composer-tab" data-composer-mode="say" type="button">SAY</button>
+            <button class="composer-tab" data-composer-mode="ask" type="button">ASK</button>
+          </div>
+
+          <div id="manualComposer" class="composer-mode-panel">
+            <div class="two-column-form">
+              <div>
+                <label for="manualTitle">Node title</label>
+                <input id="manualTitle" type="text" placeholder="e.g. The guard's warning" />
+              </div>
+              <div>
+                <label for="manualBranchName">Branch name when forking</label>
+                <input id="manualBranchName" type="text" placeholder="Optional; only used from an earlier node" />
+              </div>
+            </div>
+            <label for="manualSceneText">Scene text</label>
+            <textarea id="manualSceneText" class="large-textarea" placeholder="Write the next scene yourself, or dictate it locally and edit the transcript before saving."></textarea>
+            <div class="dictation-controls">
+              <button
+                id="manualSceneDictateBtn"
+                class="ghost-button dictate-button"
+                type="button"
+                data-dictate-target="manualSceneText"
+              >Dictate scene text</button>
+              <span id="manualSceneDictationStatus" class="dictation-status">Local speech-to-text · review transcript before saving</span>
+            </div>
+
+            <section class="scene-image-panel">
+              <h4>Scene image</h4>
+              <label for="manualImagePrompt">
+                Image prompt override (optional)
+              </label>
+              <textarea
+                id="manualImagePrompt"
+                placeholder="Leave blank to build a prompt from the scene and proposed state."
+              ></textarea>
+              <div class="inline-actions">
+                <select id="manualImageModel">
+                  <option value="sd15-int8" selected>
+                    Stable Diffusion 1.5 · OpenVINO INT8
+                  </option>
+                </select>
+                <button id="manualGenerateImageBtn"
+                        class="ghost-button"
+                        type="button">
+                  Generate scene image
+                </button>
+              </div>
+              <p id="manualImageStatus" class="subtle">
+                No image generated.
+              </p>
+
+              <div id="manualImagePreview" class="scene-image-preview">
+            
+              </div>
+            </section>
+
+            <details class="advanced-details">
+              <summary>Optional choices and memory changes</summary>
+              <div id="manualChoicesEditor" class="manual-choice-grid"></div>
+              <label for="manualDeltaJson">Optional memory changes caused by this scene</label>
+              <textarea
+                id="manualDeltaJson"
+                class="large-textarea"
+                spellcheck="false"
+              >{
+                "location_set": null,
+                "inventory_add": [],
+                "inventory_remove": [],
+                "relationships_set": {},
+                "goals_add": [],
+                "goals_complete": [],
+                "threat_set": null
+              }</textarea>
+            </details>
+            <label class="checkbox-row" for="manualForceFork">
+              <input id="manualForceFork" type="checkbox" />
+              <span>Create this as a new branch even when the selected node is the current branch head</span>
+            </label>
+            <button id="saveManualNodeBtn" class="primary-button full-width" type="button">Save written scene</button>
+          </div>
+
+          <div id="aiComposer" class="composer-mode-panel hidden">
+            <div class="ai-row">
+              <div>
+                <label for="aiModel">Model</label>
+                <select id="aiModel">
+                  <option value="">
+                    Checking installed story models…
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label for="aiTemperature">Creativity</label>
+                <select id="aiTemperature">
+                  <option value="0.3">Controlled (0.3)</option>
+                  <option value="0.5" selected>Balanced (0.5)</option>
+                  <option value="0.8">Creative (0.8)</option>
+                </select>
+              </div>
+              <div>
+                <label for="aiBranchName">Branch name when forking</label>
+                <input id="aiBranchName" type="text" placeholder="Optional" />
+              </div>
+            </div>
+            <label
+              id="playerInputLabel"
+              for="playerInput"
+            >
+              Next-scene direction
+            </label>
+
+            <textarea
+              id="playerInput"
+              placeholder="If a prepared choice is selected, optionally describe how you want that choice to unfold. Otherwise describe what the player does, says or asks."
+            ></textarea>
+            <div class="dictation-controls">
+              <button id="playerInputDictateBtn" class="ghost-button dictate-button" type="button" data-dictate-target="playerInput">Dictate player input</button>
+              <span id="playerInputDictationStatus" class="dictation-status">Local speech-to-text · review transcript before generation</span>
+            </div>
+
+            <label for="gmInstruction">
+              Additional Game Master constraints
+            </label>
+
+            <textarea
+              id="gmInstruction"
+              placeholder="Optional tone, character behaviour, facts to preserve, information to reveal or withhold, or other scene constraints."
+            ></textarea>
+            <div class="dictation-controls">
+              <button id="gmInstructionDictateBtn" class="ghost-button dictate-button" type="button" data-dictate-target="gmInstruction">Dictate GM instruction</button>
+              <span id="gmInstructionDictationStatus" class="dictation-status">Local speech-to-text · review transcript before generation</span>
+            </div>
+
+            
+            <label class="checkbox-row" for="aiForceFork">
+              <input id="aiForceFork" type="checkbox" />
+              <span>Save the reviewed draft as a new branch even when the selected node is the current branch head</span>
+            </label>
+            <details class="advanced-details">
+              <summary>
+                View memory and context sent to AI
+              </summary>
+
+              <p class="subtle">
+                This shows the structured context used
+                for the most recent generation request.
+              </p>
+
+              <pre
+                id="aiContextJson"
+                class="metrics-box"
+              >Generate a draft to inspect its context.</pre>
+            </details>
+            <button id="generateDraftBtn" class="primary-button full-width" type="button">Generate draft</button>
+            <p id="generationStatus" class="status-line"></p>
+
+            <section id="aiDraftWorkspace" class="ai-draft-workspace hidden">
+              <div id="draftValidationWarning" class="draft-validation-warning hidden">
+                <div class="draft-validation-main">
+                  <strong id="draftValidationHeading">Automated review</strong>
+                  <p>
+                    Review the issues below before saving. Blocking memory or
+                    consistency problems must be corrected. Warnings may be
+                    accepted after explicit human review.
+                  </p>
+                  <div id="draftValidationIssues" class="draft-validation-issues"></div>
+                </div>
+                <button id="regenerateDraftBtn" class="ghost-button" type="button">
+                  Regenerate draft
+                </button>
+              </div>
+
+              <div class="two-column-form">
+                <div>
+                  <label for="draftTitle">Generated node title</label>
+                  <input id="draftTitle" type="text" />
+                </div>
+                <div>
+                  <label>Generation information</label>
+                  <div id="draftMetrics" class="metrics-box"></div>
+                </div>
+              </div>
+
+              <div class="draft-field-heading">
+                <label for="draftText">
+                  Generated scene — review and edit before saving
+                </label>
+                <span id="draftWordCount" class="draft-word-count">0 words</span>
+              </div>
+              <textarea
+                id="draftText"
+                class="large-textarea"
+                aria-describedby="draftTextFeedback"
+              ></textarea>
+              <p id="draftTextFeedback" class="draft-field-feedback"></p>
+
+              <div id="draftChoicesEditor" class="draft-choice-grid"></div>
+
+              <details class="advanced-details">
+                <summary>Review applied memory changes</summary>
+                <div
+                  id="draftMemoryValidation"
+                  class="draft-memory-validation"
+                ></div>
+                <div id="draftDeltaEditor" class="delta-lite-grid"></div>
+              </details>
+              
+              <section class="scene-image-panel">
+                <h4>Scene image</h4>
+                <label for="draftImagePrompt">
+                  Image prompt override (optional)
+                </label>
+                <textarea
+                  id="draftImagePrompt"
+                  placeholder="Leave blank to build a prompt from the reviewed draft and proposed state."
+                ></textarea>
+
+                <div class="inline-actions">
+                  <select id="draftImageModel">
+                    <option value="sd15-int8" selected>
+                      Stable Diffusion 1.5 · OpenVINO INT8
+                    </option>
+                  </select>
+
+                  <button
+                    id="draftGenerateImageBtn"
+                    class="ghost-button"
+                    type="button">
+                    Generate scene image
+                  </button>
+                </div>
+                <p id="draftImageStatus" class="subtle">
+                  No image generated.
+                </p>
+                <div
+                  id="draftImagePreview"
+                  class="scene-image-preview"
+                ></div>
+              </section>
+
+              <button
+                id="saveAiDraftBtn"
+                class="secondary-button full-width"
+                type="button"
+              >
+                Save reviewed AI scene
+              </button>
+            </section>
+          </div>
+        </section>
+      </section>
+
+        <section id="objectivePanel" class="objective-grid"></section>
+      </main>
+  </div>
+
+  <div id="projectModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card setup-modal-card">
+      <div class="modal-heading"><div><h2 id="projectModalTitle">Create a story</h2><p class="subtle">These settings become the story bible and initial memory.</p></div><button class="icon-button" data-close-modal="projectModal" type="button">×</button></div>
+      <div class="setup-grid">
+        <div><label for="setupTitle">Story title</label><input id="setupTitle" type="text" /></div>
+        <div><label for="setupGenre">Genre</label><input id="setupGenre" type="text" value="Fantasy" /></div>
+        <div><label for="setupTone">Tone</label><input id="setupTone" type="text" value="Adventurous" /></div>
+        <div><label for="setupObjective">Main objective</label><input id="setupObjective" type="text" /></div>
+        <div class="span-two"><label for="setupWorld">World and story environment</label><textarea id="setupWorld"></textarea></div>
+        <section class="story-element-settings span-two">
+          <div class="story-element-settings-heading">
+            <div>
+              <h3>Story Element Library</h3>
+              <p class="subtle">Choose which database-backed elements this story may use. Manage definitions from the Story Elements page.</p>
+            </div>
+            <div class="story-element-mode-grid">
+              <div>
+                <label for="setupStoryElementMode">Library mode</label>
+                <select id="setupStoryElementMode">
+                  <option value="off">Off</option>
+                  <option value="guided" selected>Guided</option>
+                  <option value="strict">Strict</option>
+                </select>
+              </div>
+              <div>
+                <label for="setupStoryElementPackFilter">View pack</label>
+                <select id="setupStoryElementPackFilter">
+                  <option value="">All packs</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <p class="subtle">
+            Guided uses selected elements as optional supporting knowledge. Strict prefers enabled elements when an unspecified configured element is needed. Explicit user and GM instructions always take priority.
+          </p>
+
+          <div id="storyElementCatalog" class="story-element-catalog">
+            <p class="subtle">Loading story elements…</p>
+          </div>
+        </section>
+        <div><label for="setupSceneTitle">Starting node title</label><input id="setupSceneTitle" type="text" value="Starting scene" /></div>
+        <div><label for="setupLocation">Starting location</label><input id="setupLocation" type="text" value="Unknown" /></div>
+        <div class="span-two"><label for="setupSceneText">Starting scene</label><textarea id="setupSceneText" class="large-textarea"></textarea></div>
+        <div><label for="setupCharacters">Active characters, comma-separated</label><input id="setupCharacters" type="text" /></div>
+        <div><label for="setupInventory">Inventory, comma-separated</label><input id="setupInventory" type="text" /></div>
+        <div class="span-two"><label for="setupRelationships">Relationships, one per line as Name: status</label><textarea id="setupRelationships"></textarea></div>
+        <div><label for="setupGoals">Goals, one per line</label><textarea id="setupGoals"></textarea></div>
+        <div><label for="setupClues">Unresolved clues, one per line</label><textarea id="setupClues"></textarea></div>
+        <div><label for="setupDecisions">Existing decisions, one per line</label><textarea id="setupDecisions"></textarea></div>
+        <div><label for="setupThreat">Threat level</label><select id="setupThreat"><option>Low</option><option>Medium</option><option>High</option></select></div>
+      </div>
+      <p id="settingsWarning" class="warning-text hidden">Changing the root memory will recalculate active descendant snapshots from their stored state changes. Review later branches after saving.</p>
+      <div class="modal-actions"><button class="ghost-button" data-close-modal="projectModal" type="button">Cancel</button><button id="saveProjectBtn" class="primary-button" type="button">Save story</button></div>
+    </div>
+  </div>
+
+  <div id="fullStoryModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card full-story-card">
+      <div class="modal-heading"><div><h2>Full story to selected node</h2><p id="fullStoryPathLabel" class="subtle"></p></div><button class="icon-button" data-close-modal="fullStoryModal" type="button">×</button></div>
+      <article id="fullStoryContent" class="full-story-content"></article>
+    </div>
+  </div>
+
+  <div id="editNodeModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-heading"><h2>Edit selected scene</h2><button class="icon-button" data-close-modal="editNodeModal" type="button">×</button></div>
+      <label for="editNodeTitle">Node title</label><input id="editNodeTitle" type="text" />
+      <label for="editNodeText">Scene text</label><textarea id="editNodeText" class="large-textarea"></textarea>
+      <div id="editChoicesEditor" class="draft-choice-grid"></div>
+      <details class="advanced-details">
+        <summary>Review this node's applied memory changes</summary>
+        <div id="editDeltaEditor" class="delta-lite-grid"></div>
+      </details>
+      <div class="modal-actions"><button class="ghost-button" data-close-modal="editNodeModal" type="button">Cancel</button><button id="saveNodeEditBtn" class="primary-button" type="button">Save changes</button></div>
+    </div>
+  </div>
+
+  <div id="compareModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card full-story-card">
+      <div class="modal-heading"><div><h2>Compare branches</h2><p class="subtle">Review unique scenes and current memory differences.</p></div><button class="icon-button" data-close-modal="compareModal" type="button">×</button></div>
+      <div class="compare-controls"><select id="leftBranchSelect"></select><span>versus</span><select id="rightBranchSelect"></select><button id="runComparisonBtn" class="secondary-button" type="button">Compare</button></div>
+      <div id="compareContent"></div>
+    </div>
+  </div>
+
+
+  <div id="trashModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card full-story-card">
+      <div class="modal-heading">
+        <div>
+          <h2>Deleted nodes and branches</h2>
+          <p class="subtle">Restore a deleted leaf node or an entire deleted branch group.</p>
+        </div>
+        <button class="icon-button" data-close-modal="trashModal" type="button">×</button>
+      </div>
+      <div id="trashContent" class="trash-list"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
