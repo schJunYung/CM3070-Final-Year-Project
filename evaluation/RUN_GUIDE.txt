@@ -1,0 +1,112 @@
+SEKAI FORMAL OBJECTIVE EVALUATION - RUN GUIDE
+==============================================
+
+Use this evaluator as a SEPARATE FILE, not as manual clicking inside the
+application. It imports the real SekAI backend, so it still evaluates the
+production generation/retrieval/validation/NLI/state/forking pipeline.
+
+Keep three layers separate:
+
+1. SOFTWARE TESTS
+   Run your existing pytest suite first:
+       .\.venv\Scripts\python.exe -m pytest -q
+
+2. FORMAL OBJECTIVE EVALUATION
+   Copy run_objective_evaluation.py into:
+       <SekAI repository>\evaluation\run_objective_evaluation.py
+
+   Start Ollama. You do NOT need run_app.py/FastAPI running for this script.
+
+   Confirm the exact final writer model:
+       ollama list
+
+   First do a short smoke run:
+       .\.venv\Scripts\python.exe .\evaluation\run_objective_evaluation.py --reset-db --latency-runs 2 --pairs 1 --max-turns 3
+
+   If that succeeds, run the final experiment:
+       .\.venv\Scripts\python.exe .\evaluation\run_objective_evaluation.py --reset-db --model qwen2.5:1.5b-instruct-q4_K_M --latency-runs 20 --pairs 2 --max-turns 7
+
+   Replace the --model value if your final selected model has a different exact
+   Ollama tag.
+
+3. MANUAL/UI CHECK + USER STUDY
+   Separately verify in the visible application that:
+   - both branches are visible in the graph;
+   - an earlier node can be selected/forked;
+   - branch comparison is readable;
+   - the full-story path works.
+   Do not use human clicking time for the formal AI latency metric.
+
+
+WHAT THE SCRIPT TESTS
+---------------------
+
+OBJECTIVE 1
+- One warm-up generation is excluded.
+- 20 measured application-pipeline generations by default.
+- Records mean, median, SD, P95, min/max, attempts, fallback, tokens/s,
+  semantic/NLI completion, validation and word count.
+- Creates branch A and branch B from the SAME historical root.
+- Checks >=2 branches, shared common ancestor and three choices on saved AI nodes.
+- Compares mean accepted latency to the report target of <15 seconds.
+
+OBJECTIVE 2
+- Default: 2 independent A/B pairs = 4 controlled branches.
+- Default: 7 turns per branch.
+- Branch A and B intentionally contain different items/relationships so
+  cross-branch leakage can be detected.
+- Checks labelled stored facts after each turn.
+- Calculates fact preservation rate and compares it with >=85%.
+- Counts continuity-error turns per branch and compares with <=2.
+- Records blocking NLI/continuity issues.
+- Also creates objective2_manual_story_review.csv because semantic story
+  continuity still requires human reading/labels.
+
+Manual review rule:
+- critical contradiction = the prose directly reverses an established fact in
+  a way that breaks the branch (wrong inventory, impossible location/history,
+  wrong relationship, or importing a fact unique to the other branch).
+- other continuity error = a smaller inconsistency that does not invalidate
+  the whole branch.
+
+Fill these columns with 0 or 1:
+    manual_critical_contradiction_0_or_1
+    manual_other_continuity_error_0_or_1
+    reviewer_notes
+
+OBJECTIVE 3
+- Every controlled continuation is reached through a selected choice.
+- Six of seven planned turns require a stored state change.
+- One turn is an intentional no-change control.
+- Calculates the original selected-choice state-change ratio (target >=80%).
+- Separately reports whether expected changes were correct and whether
+  no-change controls remained unchanged.
+
+
+OUTPUT DIRECTORY
+----------------
+evaluation\results\formal_objectives\
+
+Expected files:
+    sekai_objective_evaluation.db
+    objective1_latency.csv
+    objective1_branching.csv
+    objective2_continuity.csv
+    objective2_manual_story_review.csv
+    objective3_consequences.csv
+    objective_raw_outputs.jsonl
+    objective_summary.json
+    objective_summary.csv
+
+
+VERY IMPORTANT
+--------------
+The script deliberately points backend.db.DB_PATH at a separate evaluation DB.
+Do not point --db at your development database.
+
+Use --reset-db for the final run so exploratory/smoke-test records are not mixed
+with the formal measurements.
+
+Once the formal run begins, do not change the writer prompt, validator,
+retrieval settings, NLI threshold, model choice, fallback policy, num_ctx or
+num_predict unless you are prepared to rerun the affected evaluation.
