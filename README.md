@@ -277,21 +277,7 @@ This is optional because image generation may take significant time on CPU/integ
 
 ---
 
-## Experimental image exporter
 
-`export_image_models.py` is **not part of normal installation**.
-
-It uses the earlier Optimum-Intel/Diffusers conversion workflow. The production application instead downloads:
-
-```text
-OpenVINO/stable-diffusion-v1-5-int8-ov
-```
-
-which is already converted for OpenVINO.
-
-Keep the exporter only if you need to preserve the earlier model-conversion experiment for project evidence. If retained, give it a separate experimental dependency file instead of installing those packages for every SekAI user.
-
----
 
 ## Project structure
 
